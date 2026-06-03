@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPT IM GROUP — Estimation Studio 4 rue Moreau, Paris 12</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #070810;
+      --bg-2: #0f1119;
+      --bg-3: #131623;
+      --card: #0f1119;
+      --card-2: #1a1d2e;
+      --border: rgba(255,255,255,0.06);
+      --border-2: rgba(255,255,255,0.12);
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+
+      /* Brand colors */
+      --gold: #d4af37;
+      --gold-2: #f5d77a;
+      --primary: #2563eb;
+      --primary-2: #3b82f6;
+      --green: #22c55e;
+      --green-2: #4ade80;
+
+      /* Section colors */
+      --c-estimation: #d4af37;
+      --c-projection: #60a5fa;
+      --c-location: #a78bfa;
+      --c-market: #22c55e;
+      --c-expertise: #f59e0b;
+      --c-services: #f472b6;
+    }
+
+    html, body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+
+    /* Background noise & gradients */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(900px ellipse at 15% 5%, rgba(212,175,55,0.08), transparent 60%),
+        radial-gradient(700px ellipse at 85% 80%, rgba(37,99,235,0.06), transparent 60%),
+        radial-gradient(500px ellipse at 50% 50%, rgba(34,197,94,0.04), transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── SLIDES ── */
+    .slides-wrap {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      z-index: 2;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 80px 60px 90px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .5s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  transform .5s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transform: translateY(30px) scale(0.98);
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0) scale(1);
+    }
+
+    /* ── ANIMATIONS ── */
+    .slide.active .anim {
+      animation: fadeInUp 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+    .slide.active .anim:nth-child(1){animation-delay:.05s}
+    .slide.active .anim:nth-child(2){animation-delay:.12s}
+    .slide.active .anim:nth-child(3){animation-delay:.19s}
+    .slide.active .anim:nth-child(4){animation-delay:.26s}
+    .slide.active .anim:nth-child(5){animation-delay:.33s}
+    .slide.active .anim:nth-child(6){animation-delay:.40s}
+    .slide.active .anim:nth-child(7){animation-delay:.47s}
+    .slide.active .anim:nth-child(8){animation-delay:.54s}
+    .slide.active .anim:nth-child(9){animation-delay:.61s}
+    .slide.active .anim:nth-child(10){animation-delay:.68s}
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shimmerText {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.02); }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 30px rgba(212,175,55,0.3), 0 0 60px rgba(212,175,55,0.1); }
+      50% { box-shadow: 0 0 40px rgba(212,175,55,0.5), 0 0 80px rgba(212,175,55,0.2); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes borderSpin {
+      to { --border-angle: 360deg; }
+    }
+
+    @property --border-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .t-hero {
+      font-size: clamp(48px, 9vw, 100px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+    .t-h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .t-h2 {
+      font-size: clamp(26px, 4.5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .t-h3 {
+      font-size: clamp(20px, 3vw, 36px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .t-body {
+      font-size: clamp(16px, 2vw, 22px);
+      font-weight: 400;
+      line-height: 1.7;
+      max-width: 720px;
+      color: var(--text-muted);
+    }
+    .t-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .t-mono {
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 25%, #fff 50%, var(--gold-2) 75%, var(--gold) 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmerText 5s linear infinite;
+    }
+
+    .gradient-text-blue {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 25%, #fff 50%, var(--primary-2) 75%, var(--primary) 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmerText 5s linear infinite;
+    }
+
+    /* ── COMPONENTS ── */
+
+    /* Badge/Pill */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .badge-blue {
+      background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(37,99,235,0.05));
+      border-color: rgba(37,99,235,0.3);
+      color: var(--primary-2);
+    }
+    .badge-green {
+      background: linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05));
+      border-color: rgba(34,197,94,0.3);
+      color: var(--green-2);
+    }
+    .badge-purple {
+      background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(167,139,250,0.05));
+      border-color: rgba(167,139,250,0.3);
+      color: #a78bfa;
+    }
+
+    /* Stat card with glow */
+    .stat-card {
+      position: relative;
+      background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-3) 100%);
+      border: 1px solid var(--border-2);
+      border-radius: 24px;
+      padding: 48px 56px;
+      text-align: center;
+      max-width: 580px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: conic-gradient(from var(--border-angle, 0deg),
+        var(--gold) 0deg, transparent 60deg, transparent 300deg, var(--gold) 360deg);
+      border-radius: 26px;
+      z-index: -1;
+      animation: borderSpin 8s linear infinite;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      inset: 1px;
+      background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-3) 100%);
+      border-radius: 23px;
+      z-index: -1;
+    }
+    .stat-card .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .stat-card .value {
+      font-size: clamp(56px, 12vw, 96px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 60px rgba(212,175,55,0.4);
+    }
+    .stat-card .sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+
+    /* Data table */
+    .data-table {
+      width: 100%;
+      max-width: 900px;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .data-table th {
+      background: linear-gradient(180deg, var(--bg-3) 0%, var(--bg-2) 100%);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 16px 14px;
+      text-align: center;
+      border-bottom: 1px solid var(--border-2);
+    }
+    .data-table th:first-child { text-align: left; padding-left: 24px; }
+    .data-table td {
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .data-table td:first-child { text-align: left; padding-left: 24px; }
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr.total {
+      background: linear-gradient(90deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.05) 100%);
+    }
+    .data-table tr.total td {
+      font-weight: 800;
+      color: var(--green-2);
+      font-size: 15px;
+      border-bottom: none;
+    }
+
+    /* Cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 960px;
+      width: 100%;
+    }
+    .cards-grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 760px;
+    }
+
+    .out-card {
+      --c: var(--gold);
+      background: linear-gradient(135deg,
+        color-mix(in oklab, var(--c) 8%, var(--bg-2)),
+        var(--bg-2));
+      border: 1px solid color-mix(in oklab, var(--c) 20%, var(--border));
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: left;
+      transition: transform 0.25s cubic-bezier(0.2,0.8,0.2,1),
+                  border-color 0.25s,
+                  box-shadow 0.25s;
+    }
+    .out-card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in oklab, var(--c) 50%, var(--border-2));
+      box-shadow: 0 16px 40px -12px color-mix(in oklab, var(--c) 25%, rgba(0,0,0,0.5));
+    }
+    .out-card .icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .out-card h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .out-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .out-card .stat {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--c);
+      margin-bottom: 6px;
+      text-shadow: 0 0 20px color-mix(in oklab, var(--c) 40%, transparent);
+    }
+
+    /* Distance cards */
+    .distance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 900px;
+      width: 100%;
+    }
+    .distance-card {
+      --c: var(--c-location);
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: all 0.25s cubic-bezier(0.2,0.8,0.2,1);
+    }
+    .distance-card:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in oklab, var(--c) 40%, var(--border));
+      box-shadow: 0 12px 32px -8px color-mix(in oklab, var(--c) 20%, rgba(0,0,0,0.4));
+    }
+    .distance-card .icon { font-size: 32px; margin-bottom: 12px; }
+    .distance-card .name {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .distance-card .dist {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--c);
+      text-shadow: 0 0 20px color-mix(in oklab, var(--c) 30%, transparent);
+    }
+    .distance-card .time {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* Expertise stats */
+    .expertise-grid {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .expertise-stat {
+      text-align: center;
+      padding: 32px 40px;
+      background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-3) 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      min-width: 180px;
+      transition: all 0.3s cubic-bezier(0.2,0.8,0.2,1);
+    }
+    .expertise-stat:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: rgba(212,175,55,0.3);
+      box-shadow: 0 20px 50px -15px rgba(212,175,55,0.2);
+    }
+    .expertise-stat .num {
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--gold);
+      text-shadow: 0 0 40px rgba(212,175,55,0.4);
+    }
+    .expertise-stat .label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    /* Timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 680px;
+      width: 100%;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 24px;
+      padding: 24px 0;
+      position: relative;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 72px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary) 0%, transparent 100%);
+    }
+    .timeline-item:last-child::before { display: none; }
+    .timeline-num {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      flex-shrink: 0;
+      box-shadow: 0 0 30px rgba(37,99,235,0.4);
+    }
+    .timeline-content {
+      text-align: left;
+      padding-top: 8px;
+    }
+    .timeline-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Comparison */
+    .comparison {
+      display: flex;
+      gap: 24px;
+      max-width: 780px;
+      width: 100%;
+      align-items: stretch;
+    }
+    .compare-box {
+      flex: 1;
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .compare-box.standard {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+    }
+    .compare-box.premium {
+      background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(34,197,94,0.02) 100%);
+      border: 2px solid rgba(34,197,94,0.4);
+    }
+    .compare-box.premium::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: radial-gradient(circle at 50% 50%, rgba(34,197,94,0.15) 0%, transparent 50%);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .compare-box .type {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .compare-box.standard .type { color: var(--text-dim); }
+    .compare-box.premium .type { color: var(--green-2); }
+    .compare-box .amount {
+      font-size: clamp(36px, 7vw, 56px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      position: relative;
+    }
+    .compare-box.standard .amount { color: var(--text-muted); }
+    .compare-box.premium .amount {
+      color: #fff;
+      text-shadow: 0 0 40px rgba(34,197,94,0.5);
+    }
+    .compare-box .period {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 8px;
+      position: relative;
+    }
+    .compare-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: var(--green);
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* Services grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      max-width: 760px;
+      width: 100%;
+    }
+    .service-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .service-item:hover {
+      border-color: rgba(34,197,94,0.3);
+      background: linear-gradient(90deg, rgba(34,197,94,0.05) 0%, transparent 100%);
+    }
+    .service-item .check {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(34,197,94,0.3);
+    }
+
+    /* CTA Button with rotating border */
+    .cta-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 40px;
+      background: var(--bg-2);
+      border: none;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: conic-gradient(from var(--border-angle, 0deg),
+        #d4af37 0deg, #60a5fa 60deg, #22c55e 120deg,
+        #f59e0b 180deg, #a78bfa 240deg, #f472b6 300deg, #d4af37 360deg);
+      border-radius: 17px;
+      z-index: -2;
+      animation: borderSpin 8s linear infinite;
+    }
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: var(--bg-2);
+      border-radius: 12px;
+      z-index: -1;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 30px rgba(212,175,55,0.3),
+        0 0 60px rgba(37,99,235,0.2),
+        0 0 90px rgba(34,197,94,0.1);
+    }
+    .cta-btn:hover::before {
+      animation-duration: 4s;
+    }
+
+    /* ── CHROME ── */
+    .logo-corner {
+      position: fixed;
+      top: 20px;
+      left: 24px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold) 0%, #b8860b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: #000;
+      box-shadow: 0 4px 16px rgba(212,175,55,0.4);
+    }
+    .logo-text {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .logo-text span { color: var(--gold); }
+
+    .progress-wrap {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--border);
+      z-index: 200;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--primary), var(--green));
+      transition: width 0.4s cubic-bezier(0.2,0.8,0.2,1);
+      box-shadow: 0 0 20px rgba(212,175,55,0.5);
+    }
+
+    .hud-left {
+      position: fixed;
+      bottom: 16px;
+      left: 24px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      z-index: 200;
+    }
+    .hud-right {
+      position: fixed;
+      bottom: 16px;
+      right: 24px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      z-index: 200;
+    }
+
+    .nav-wrap {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 200;
+    }
+    .nav-btn {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .nav-btn:hover {
+      background: var(--bg-3);
+      color: var(--text);
+      border-color: var(--border-2);
+      transform: translateY(-2px);
+    }
+
+    .slide-tag {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 6px 14px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cards-grid, .distance-grid { grid-template-columns: repeat(2, 1fr); }
+      .comparison { flex-direction: column; }
+      .compare-arrow { transform: rotate(90deg); }
+    }
+    @media (max-width: 640px) {
+      .cards-grid, .cards-grid-2, .distance-grid, .services-grid { grid-template-columns: 1fr; }
+      .slide { padding: 60px 24px 80px; }
+      .expertise-grid { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="logo-corner">
+  <div class="logo-mark">O</div>
+  <div class="logo-text">OPT IM <span>GROUP</span></div>
+</div>
+
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<div class="hud-left">4 rue Moreau, Paris 12</div>
+<div class="hud-right" id="counter">1 / 12</div>
+
+<div class="nav-wrap">
+  <button class="nav-btn" id="btnPrev" onclick="prev()">&#8592;</button>
+  <button class="nav-btn" id="btnNext" onclick="next()">&#8594;</button>
+</div>
+
+<div class="slides-wrap" id="slidesWrap">
+
+  <!-- SLIDE 1 — HERO -->
+  <div class="slide active">
+    <div class="slide-tag">Bienvenue</div>
+    <div class="badge anim">Conciergerie Premium Paris</div>
+    <h1 class="t-hero gradient-text anim" style="margin-bottom:24px;">
+      OPT IM GROUP
+    </h1>
+    <p class="t-h3 anim" style="color:var(--text-muted); font-weight:600; margin-bottom:32px;">
+      Dossier d'Estimation Personnalise
+    </p>
+    <div class="anim" style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+      <span class="t-label">Votre bien</span>
+      <span style="font-size:20px; font-weight:700; color:var(--text);">Studio 38m<sup>2</sup> &bull; 4 rue Moreau</span>
+      <span style="font-size:16px; color:var(--gold); font-weight:600;">Quartier Bastille &bull; Paris 12<sup>e</sup></span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — ESTIMATION -->
+  <div class="slide">
+    <div class="slide-tag">Estimation</div>
+    <div class="badge anim">Revenus Nets Annuels</div>
+    <div class="stat-card anim">
+      <div class="label">Estimation Conservatrice</div>
+      <div class="value">23 008 EUR</div>
+      <div class="sub">Soit environ <strong style="color:#fff;">1 917 EUR</strong> net / mois apres commission</div>
+    </div>
+    <div class="anim" style="margin-top:32px; display:flex; flex-direction:column; align-items:center; gap:8px;">
+      <span style="font-size:18px; font-weight:700; color:var(--green-2);">Commission tout inclus : 20%</span>
+      <span style="font-size:14px; color:var(--text-muted);">CA Brut estime : 28 761 EUR / an</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — PROJECTION -->
+  <div class="slide">
+    <div class="slide-tag">Projections</div>
+    <div class="badge badge-blue anim">Projection Detaillee</div>
+    <h2 class="t-h2 anim" style="margin-bottom:28px;">
+      Revenus <span class="gradient-text">mois par mois</span>
+    </h2>
+    <table class="data-table anim">
+      <tr>
+        <th>Mois</th>
+        <th>CA Brut</th>
+        <th>Taux Occ.</th>
+        <th>Net Proprio</th>
+        <th>Saison</th>
+      </tr>
+      <tr><td>Janvier</td><td>1 558 EUR</td><td>60%</td><td>1 246 EUR</td><td>Basse</td></tr>
+      <tr><td>Fevrier</td><td>1 530 EUR</td><td>63%</td><td>1 224 EUR</td><td>Basse</td></tr>
+      <tr><td>Mars</td><td>2 024 EUR</td><td>70%</td><td>1 619 EUR</td><td>Moyenne</td></tr>
+      <tr><td>Avril</td><td>2 346 EUR</td><td>78%</td><td>1 876 EUR</td><td>Haute</td></tr>
+      <tr><td>Mai</td><td>2 700 EUR</td><td>80%</td><td>2 160 EUR</td><td>Haute</td></tr>
+      <tr><td>Juin</td><td>3 068 EUR</td><td>85%</td><td>2 454 EUR</td><td>Tres haute</td></tr>
+      <tr><td>Juillet</td><td>3 375 EUR</td><td>88%</td><td>2 700 EUR</td><td>Tres haute</td></tr>
+      <tr><td>Aout</td><td>3 172 EUR</td><td>85%</td><td>2 537 EUR</td><td>Tres haute</td></tr>
+      <tr><td>Septembre</td><td>2 700 EUR</td><td>82%</td><td>2 160 EUR</td><td>Haute</td></tr>
+      <tr><td>Octobre</td><td>2 090 EUR</td><td>72%</td><td>1 672 EUR</td><td>Moyenne</td></tr>
+      <tr><td>Novembre</td><td>1 558 EUR</td><td>62%</td><td>1 246 EUR</td><td>Basse</td></tr>
+      <tr><td>Decembre</td><td>2 640 EUR</td><td>78%</td><td>2 112 EUR</td><td>Haute</td></tr>
+      <tr class="total"><td>TOTAL</td><td>28 761 EUR</td><td>~75%</td><td>23 008 EUR</td><td></td></tr>
+    </table>
+  </div>
+
+  <!-- SLIDE 4 — LOCALISATION -->
+  <div class="slide">
+    <div class="slide-tag">Localisation</div>
+    <div class="badge badge-purple anim">Quartier Bastille</div>
+    <h2 class="t-h1 anim" style="margin-bottom:20px;">
+      Une localisation<br><span class="gradient-text">exceptionnelle</span>
+    </h2>
+    <p class="t-body anim" style="margin-top:16px;">
+      Au coeur du <strong style="color:#fff;">12<sup>e</sup> arrondissement</strong>, a la croisee des quartiers<br>
+      les plus dynamiques et touristiques de Paris.
+    </p>
+  </div>
+
+  <!-- SLIDE 5 — DISTANCES -->
+  <div class="slide">
+    <div class="slide-tag">Proximite</div>
+    <h2 class="t-h2 anim" style="margin-bottom:32px;">
+      Points d'interet <span style="color:var(--c-location);">a proximite</span>
+    </h2>
+    <div class="distance-grid anim">
+      <div class="distance-card">
+        <div class="icon">🏛️</div>
+        <div class="name">Place de la Bastille</div>
+        <div class="dist">400m</div>
+        <div class="time">5 min a pied</div>
+      </div>
+      <div class="distance-card">
+        <div class="icon">🎭</div>
+        <div class="name">Opera Bastille</div>
+        <div class="dist">600m</div>
+        <div class="time">7 min a pied</div>
+      </div>
+      <div class="distance-card">
+        <div class="icon">🚄</div>
+        <div class="name">Gare de Lyon</div>
+        <div class="dist">500m</div>
+        <div class="time">6 min a pied</div>
+      </div>
+      <div class="distance-card">
+        <div class="icon">🏰</div>
+        <div class="name">Place des Vosges</div>
+        <div class="dist">900m</div>
+        <div class="time">11 min a pied</div>
+      </div>
+      <div class="distance-card">
+        <div class="icon">🎨</div>
+        <div class="name">Viaduc des Arts</div>
+        <div class="dist">300m</div>
+        <div class="time">4 min a pied</div>
+      </div>
+      <div class="distance-card">
+        <div class="icon">⛵</div>
+        <div class="name">Bassin de l'Arsenal</div>
+        <div class="dist">600m</div>
+        <div class="time">8 min a pied</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6 — MARCHE -->
+  <div class="slide">
+    <div class="slide-tag">Marche</div>
+    <div class="badge badge-green anim">Donnees 2024-2025</div>
+    <h2 class="t-h2 anim" style="margin-bottom:32px;">
+      Le marche parisien en <span style="color:var(--green-2);">chiffres</span>
+    </h2>
+    <div class="cards-grid anim">
+      <div class="out-card" style="--c: var(--green);">
+        <div class="icon">📊</div>
+        <div class="stat">82%</div>
+        <h4>Taux d'occupation</h4>
+        <p>Moyenne Paris (AirDNA 2024)</p>
+      </div>
+      <div class="out-card" style="--c: var(--gold);">
+        <div class="icon">💰</div>
+        <div class="stat">171 EUR</div>
+        <h4>Tarif nuitee moyen</h4>
+        <p>Inside Airbnb</p>
+      </div>
+      <div class="out-card" style="--c: var(--primary-2);">
+        <div class="icon">📈</div>
+        <div class="stat">+5%</div>
+        <h4>Croissance tarifs</h4>
+        <p>Sur 12 mois (Statista)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7 — EXPERTISE INTRO -->
+  <div class="slide">
+    <div class="slide-tag">Expertise</div>
+    <div class="badge anim">Notre Expertise</div>
+    <h2 class="t-h1 anim" style="margin-bottom:24px;">
+      Plus de <span class="gradient-text">200</span> proprietaires<br>accompagnes
+    </h2>
+    <p class="t-body anim">
+      Via le programme <strong style="color:#fff;">SuperHote Elite</strong><br>
+      Coach certifie : Jean-Marc Taouo
+    </p>
+  </div>
+
+  <!-- SLIDE 8 — EXPERTISE STATS -->
+  <div class="slide">
+    <div class="slide-tag">Resultats</div>
+    <p class="t-label anim" style="margin-bottom:24px;">Nos resultats parlent d'eux-memes</p>
+    <div class="expertise-grid anim">
+      <div class="expertise-stat">
+        <div class="num">+200</div>
+        <div class="label">Proprietaires coaches</div>
+      </div>
+      <div class="expertise-stat">
+        <div class="num">+30%</div>
+        <div class="label">De revenus en moyenne</div>
+      </div>
+      <div class="expertise-stat">
+        <div class="num">90j</div>
+        <div class="label">D'accompagnement</div>
+      </div>
+    </div>
+    <p class="t-body anim" style="margin-top:32px; font-size:16px;">
+      <strong style="color:var(--gold);">Hypothese conservatrice</strong> : nos clients realisent<br>
+      <strong style="color:#fff;">+30% de revenus</strong> par rapport a un loueur standard
+    </p>
+  </div>
+
+  <!-- SLIDE 9 — PROGRAMME -->
+  <div class="slide">
+    <div class="slide-tag">Programme</div>
+    <div class="badge badge-blue anim">SuperHote Elite</div>
+    <h2 class="t-h2 anim" style="margin-bottom:32px;">
+      Accompagnement <span class="gradient-text-blue">90 jours</span>
+    </h2>
+    <div class="timeline anim">
+      <div class="timeline-item">
+        <div class="timeline-num">1</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Optimisation d'Annonce</div>
+          <div class="timeline-desc">Audit complet, Superkit visuel, photos pro, description AIDA, profil hote</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">2</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Configuration & Automatisation</div>
+          <div class="timeline-desc">Superhote setup, Stripe, serrures connectees, Pricelabs, messages auto</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num">3</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Site Internet & Fidelisation</div>
+          <div class="timeline-desc">Boutique CozyUp, site direct, marketing, demarchage B2B</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10 — COMPARAISON -->
+  <div class="slide">
+    <div class="slide-tag">Potentiel</div>
+    <div class="badge badge-green anim">Projection +30%</div>
+    <h2 class="t-h2 anim" style="margin-bottom:36px;">
+      Votre <span style="color:var(--green-2);">potentiel reel</span>
+    </h2>
+    <div class="comparison anim">
+      <div class="compare-box standard">
+        <div class="type">Estimation conservatrice</div>
+        <div class="amount">23 008 EUR</div>
+        <div class="period">par an</div>
+      </div>
+      <div class="compare-arrow">&#8594;</div>
+      <div class="compare-box premium">
+        <div class="type">Avec notre optimisation</div>
+        <div class="amount">29 910 EUR</div>
+        <div class="period">par an (+30%)</div>
+      </div>
+    </div>
+    <p class="t-label anim" style="margin-top:28px;">
+      Soit jusqu'a <strong style="color:var(--green-2);">2 492 EUR / mois</strong> net
+    </p>
+  </div>
+
+  <!-- SLIDE 11 — SERVICES -->
+  <div class="slide">
+    <div class="slide-tag">Services</div>
+    <div class="badge anim">Inclus dans nos 20%</div>
+    <h2 class="t-h2 anim" style="margin-bottom:32px;">
+      Service <span class="gradient-text">tout compris</span>
+    </h2>
+    <div class="services-grid anim">
+      <div class="service-item"><div class="check">&#10003;</div>Gestion complete des annonces</div>
+      <div class="service-item"><div class="check">&#10003;</div>Pricing dynamique quotidien</div>
+      <div class="service-item"><div class="check">&#10003;</div>Communication voyageurs 24/7</div>
+      <div class="service-item"><div class="check">&#10003;</div>Check-in / check-out automatise</div>
+      <div class="service-item"><div class="check">&#10003;</div>Menage professionnel certifie</div>
+      <div class="service-item"><div class="check">&#10003;</div>Gestion du linge hotelier</div>
+      <div class="service-item"><div class="check">&#10003;</div>Maintenance reactive</div>
+      <div class="service-item"><div class="check">&#10003;</div>Gestion administrative</div>
+      <div class="service-item"><div class="check">&#10003;</div>Photos professionnelles</div>
+      <div class="service-item"><div class="check">&#10003;</div>Reporting mensuel detaille</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12 — CTA -->
+  <div class="slide">
+    <div class="slide-tag">Demarrer</div>
+    <h2 class="t-hero gradient-text anim" style="font-size:clamp(36px,7vw,80px); margin-bottom:28px;">
+      Pret a maximiser<br>vos revenus ?
+    </h2>
+    <div class="stat-card anim" style="max-width:480px; padding:36px 48px;">
+      <div class="label">Votre estimation</div>
+      <div class="value" style="font-size:clamp(40px,9vw,72px);">23 008 EUR</div>
+      <div class="sub">minimum garanti / an</div>
+    </div>
+    <button class="cta-btn anim" style="margin-top:36px;">
+      conciergerie@optimi-group.fr
+    </button>
+  </div>
+
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let cur = 0;
+
+  document.getElementById('counter').textContent = `1 / ${total}`;
+
+  function goTo(n) {
+    if (n < 0 || n >= total) return;
+    slides[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active');
+    document.getElementById('progressBar').style.width = ((cur + 1) / total * 100) + '%';
+    document.getElementById('counter').textContent = `${cur + 1} / ${total}`;
+    document.getElementById('btnPrev').style.opacity = cur === 0 ? '0.3' : '1';
+    document.getElementById('btnNext').style.opacity = cur === total - 1 ? '0.3' : '1';
+  }
+
+  function next() { goTo(cur + 1); }
+  function prev() { goTo(cur - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+  });
+
+  document.getElementById('slidesWrap').addEventListener('click', e => {
+    if (e.clientX > window.innerWidth * 0.3) next();
+    else prev();
+  });
+
+  let touchStartX = 0;
+  document.getElementById('slidesWrap').addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  });
+  document.getElementById('slidesWrap').addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
+  });
+
+  document.getElementById('progressBar').style.width = (1 / total * 100) + '%';
+  document.getElementById('btnPrev').style.opacity = '0.3';
+</script>
+</body>
+</html>
